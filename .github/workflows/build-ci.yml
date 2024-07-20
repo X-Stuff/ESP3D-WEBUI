@@ -19,6 +19,12 @@ jobs:
         id: buildall
         run: npm run buildall
         continue-on-error: true
+      - name: Archive 3D Printer artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-printer-folder
+          path: |
+            dist/Printer3D/
       - name: Failure check
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}

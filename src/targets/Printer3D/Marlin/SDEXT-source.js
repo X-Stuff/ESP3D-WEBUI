@@ -62,7 +62,7 @@ const capabilities = {
         if (eMsg) return "E1"
         //TODO
         //check 8.1 if become true
-        return useSettingsContextFn.getValue("SerialProtocol") == "MKS"
+        return true;
     },
     UploadMultiple: () => {
         return false
@@ -89,27 +89,18 @@ const commands = {
         }
     },
     upload: (path, filename) => {
-        if (useSettingsContextFn.getValue("SerialProtocol") == "MKS")
-            return {
-                type: "url",
-                url: "upload",
-                args: { path },
-            }
-        //other is not supported so return list command for safety
         return {
-            type: "cmd",
-            cmd: useUiContextFn.getValue("sdextlistcmd"),
+            type: "url",
+            url: "upload",
+            args: { path },
         }
     },
     postUpload: (path, filename) => {
-        if (useSettingsContextFn.getValue("SerialProtocol") == "MKS") {
-            return {
-                type: "refresh",
-                arg: false,
-                timeOut: 3000,
-            }
+        return {
+            type: "refresh",
+            arg: false,
+            timeOut: 3000,
         }
-        return { type: "none" }
     },
     formatResult: (result) => {
         const files = formatFileSerialLine(result.content)
